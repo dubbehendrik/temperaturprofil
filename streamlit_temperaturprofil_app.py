@@ -9,11 +9,12 @@ import requests
 # Streamlit Layout
 st.set_page_config(layout="wide")
 
-# Logo
-st.image("HSE-Logo.jpg", width=200)
+col_logo, col_title = st.columns([6, 1])
+with col_logo:
+    st.title("Bestimmung des Wärmeübergangskoeffizienten")
+with col_title:
+    st.image("HSE-Logo.png", width=100)
 
-# Titel
-st.title("Bestimmung des Wärmeübergangskoeffizienten")
 
 # Hinweistext
 st.markdown("""
@@ -27,13 +28,14 @@ Lade entweder eine eigene Excel-Datei hoch oder verwende eine der unten bereitge
 col_demo1, col_demo2, col_demo3 = st.columns([1,1,2])
 
 with col_demo1:
-    if st.button("Beispiel 1 laden"):
-        url = "https://github.com/dubbehendrik/temperaturprofil/blob/main/Exp_Temperaturprofil_ideal.xlsx"
-        response = requests.get(url)
-        if response.status_code == 200:
-            uploaded_file = BytesIO(response.content)
-            st.session_state.uploaded_file = uploaded_file
-            st.rerun()
+if st.button("Beispiel 1 laden"):
+    url = "https://raw.githubusercontent.com/<USER>/<REPO>/<BRANCH>/Exp_Temperaturprofil_ideal.xlsx"
+    response = requests.get(url)
+    if response.status_code == 200:
+        st.session_state.uploaded_file = BytesIO(response.content)
+        st.rerun()
+
+uploaded_file = st.session_state.get("uploaded_file", st.file_uploader("Lade eine Excel-Datei hoch", type=["xlsx"]))
 
 with col_demo2:
     if st.button("Beispiel 2 laden"):
