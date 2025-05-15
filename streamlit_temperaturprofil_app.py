@@ -10,7 +10,7 @@ import requests
 st.set_page_config(layout="wide")
 
 # Logo
-st.image("HSE-Logo.png", width=200)
+st.image("HSE-Logo.jpg", width=200)
 
 # Titel
 st.title("Bestimmung des Wärmeübergangskoeffizienten")
