@@ -10,7 +10,7 @@ import requests
 st.set_page_config(layout="wide")
 
 # Logo
-st.image("https://github.com/dubbehendrik/temperaturprofil/blob/main/HSE-Logo.eps", width=200)
+st.image("HSE-Logo.eps", width=200)
 
 # Titel
 st.title("Bestimmung des Wärmeübergangskoeffizienten")
