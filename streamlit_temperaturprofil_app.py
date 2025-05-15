@@ -3,27 +3,53 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 from scipy.optimize import curve_fit
+from io import BytesIO
+import requests
 
 # Streamlit Layout
 st.set_page_config(layout="wide")
+
+# Logo
+st.image("https://github.com/dubbehendrik/temperaturprofil/blob/main/HSE-Logo.eps", width=200)
+
+# Titel
 st.title("Bestimmung des Wärmeübergangskoeffizienten")
 
-# Hilfsfunktionen
-def temperature_model(t, alpha, cp, A, m, T0, T_inf):
-    return T_inf - (T_inf - T0) * np.exp(-alpha * A * t / (m * cp))
+# Hinweistext
+st.markdown("""
+**Hinweis zur Verwendung:**
 
-def calculate_r_squared(y_true, y_pred):
-    residuals = y_true - y_pred
-    ss_res = np.sum(residuals**2)
-    ss_tot = np.sum((y_true - np.mean(y_true))**2)
-    r_squared = 1 - (ss_res / ss_tot)
-    return r_squared
+Diese App dient zur Bestimmung des Wärmeübergangskoeffizienten \( \alpha \) anhand von gemessenen Aufheiz- oder Abkühldaten. 
+Lade entweder eine eigene Excel-Datei hoch oder verwende eine der unten bereitgestellten Beispieldateien.
+""")
 
-def calculate_rmse(y_true, y_pred):
-    return np.sqrt(np.mean((y_true - y_pred)**2))
+# Beispiel-Dateien laden
+col_demo1, col_demo2, col_demo3 = st.columns([1,1,2])
+
+with col_demo1:
+    if st.button("Beispiel 1 laden"):
+        url = "https://github.com/dubbehendrik/temperaturprofil/blob/main/Exp_Temperaturprofil_ideal.xlsx"
+        response = requests.get(url)
+        if response.status_code == 200:
+            uploaded_file = BytesIO(response.content)
+            st.session_state.uploaded_file = uploaded_file
+            st.rerun()
+
+with col_demo2:
+    if st.button("Beispiel 2 laden"):
+        url = "https://github.com/dubbehendrik/temperaturprofil/blob/main/Exp_Temperaturprofil_real.xlsx"
+        response = requests.get(url)
+        if response.status_code == 200:
+            uploaded_file = BytesIO(response.content)
+            st.session_state.uploaded_file = uploaded_file
+            st.rerun()
+
+with col_demo3:
+    with open("Exp_Temperaturprofil_ideal.xlsx", "rb") as f:
+        st.download_button("Beispieldatei herunterladen", f, file_name="Exp_Temperaturprofil_ideal.xlsx")
 
 # Abschnitt 1: Dateiupload
-uploaded_file = st.file_uploader("Lade eine Excel-Datei hoch", type=["xlsx"])
+uploaded_file = st.file_uploader("Lade eine Excel-Datei hoch", type=["xlsx"], key="uploaded_file")
 
 # Reset bei Datei-Löschen
 if uploaded_file is None and "df" in st.session_state:
@@ -77,17 +103,40 @@ if "df" in st.session_state:
 
     with col_inputs:
         st.subheader("Parameter")
-        
-        cp = st.number_input("Wärmekapazität $c_p$ $[J/(kgK)]$", value=st.session_state.cp)
-        A = st.number_input("Oberfläche A $[m^2]$", value=st.session_state.A)
-        m = st.number_input("Masse m $[kg]$", value=st.session_state.m)
-        T0 = st.number_input("Anfangstemperatur $T_0$ [°C]", value=st.session_state.T0)
-        T_inf = st.number_input("Umgebungstemperatur $T_\infty$ [°C]", value=st.session_state.T_inf)
-            
+
+        col1, col2 = st.columns([2, 3])
+        with col1:
+            st.markdown(r"Wärmekapazität $c_p\ \left[\frac{J}{\mathrm{kg}\,K}\right]$", unsafe_allow_html=True)
+        with col2:
+            cp = st.number_input(label="", value=st.session_state.cp)
+
+        col1, col2 = st.columns([2, 3])
+        with col1:
+            st.markdown(r"Oberfläche $A$ $[m^2]$", unsafe_allow_html=True)
+        with col2:
+            A = st.number_input(label="", value=st.session_state.A)
+
+        col1, col2 = st.columns([2, 3])
+        with col1:
+            st.markdown(r"Masse $m$ $[kg]$", unsafe_allow_html=True)
+        with col2:
+            m = st.number_input(label="", value=st.session_state.m)
+
+        col1, col2 = st.columns([2, 3])
+        with col1:
+            st.markdown(r"Anfangstemperatur $T_0$ $[^\circ C]$", unsafe_allow_html=True)
+        with col2:
+            T0 = st.number_input(label="", value=st.session_state.T0)
+
+        col1, col2 = st.columns([2, 3])
+        with col1:
+            st.markdown(r"Umgebungstemperatur $T_\infty$ $[^\circ C]$", unsafe_allow_html=True)
+        with col2:
+            T_inf = st.number_input(label="", value=st.session_state.T_inf)
+
         calculate_clicked = st.button("Calculate")
 
         if calculate_clicked:
-            # Fit durchführen
             t_data = df_cut['Zeit_s'].values
             T_data = df_cut['Temperatur_C'].values
 
