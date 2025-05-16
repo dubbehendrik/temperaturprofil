@@ -61,7 +61,7 @@ with col_demo3:
 file_to_use = uploaded_file if uploaded_file is not None else example_file
 
 # Reset bei Datei-Löschen
-if file_to_use is not None and "df" in st.session_state:
+if file_to_use is not None:
     col_file, col_remove = st.columns([8, 2])
     with col_file:
         st.success("Datei geladen: Beispieldaten" if example_file else "Datei geladen: Hochgeladen")
