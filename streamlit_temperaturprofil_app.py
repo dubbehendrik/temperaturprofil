@@ -163,7 +163,8 @@ if "df" in st.session_state:
     with col_inputs:
         st.subheader("Parameter")
 
-        cp = st.number_input("Wärmekapazität $c_p\ \left[\frac{J}{\mathrm{kg}\,K}\right]$", value=st.session_state.cp)
+        st.markdown(r"Wärmekapazität $c_p \left[\frac{J}{\mathrm{kg}\,K}\right]$", unsafe_allow_html=True)
+        cp = st.number_input(label="", value=st.session_state.cp)
         A = st.number_input("Oberfläche $A$ $[m^2]$", value=st.session_state.A)
         m = st.number_input("Masse $m$ $[kg]$", value=st.session_state.m)
         T0 = st.number_input("Anfangstemperatur $T_0$ $[^\circ C]$", value=st.session_state.T0)
