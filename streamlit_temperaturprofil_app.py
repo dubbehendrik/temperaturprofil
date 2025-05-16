@@ -22,7 +22,7 @@ with col_logo:
 st.markdown("""
 **Hinweis zur Verwendung:**
 
-Diese App dient zur Bestimmung des Wärmeübergangskoeffizienten \( \alpha \) anhand von gemessenen Aufheiz- oder Abkühldaten. 
+Diese App dient zur Bestimmung des Wärmeübergangskoeffizienten $\( \alpha \)$ anhand von gemessenen Aufheiz- oder Abkühldaten. 
 Lade entweder eine eigene Excel-Datei hoch oder verwende eine der unten bereitgestellten Beispieldateien.
 """)
 
@@ -177,11 +177,7 @@ if "df" in st.session_state:
 
                     **RMSE (Root Mean Square Error)**:
                     - Gibt die durchschnittliche Abweichung zwischen Messung und Modell an.
-                    - Je kleiner der RMSE, desto besser die Anpassung.
-
-                    **Wichtig:**
-                    - Ein hoher R² heißt nicht automatisch niedrigen RMSE.
-                    - RMSE hilft, die tatsächliche Abweichung in realen Einheiten (hier °C) zu verstehen.
+                    - Je kleiner der RMSE, desto besser die Anpassung.                   
                     ''')
 
             except Exception as e:
