@@ -163,7 +163,8 @@ if "df" in st.session_state:
     with col_inputs:
         st.subheader("Parameter")
 
-        col1, col2 = st.columns([2, 3])
+        col1, col2 = st.columns([3, 2])
+        st.markdown("&nbsp;", unsafe_allow_html=True)  # fügt Abstand ein
         with col1:
             st.markdown(r"Wärmekapazität $c_p\ \left[\frac{J}{\mathrm{kg}\,K}\right]$", unsafe_allow_html=True)
         with col2:
