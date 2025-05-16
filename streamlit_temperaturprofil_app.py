@@ -9,10 +9,10 @@ import requests
 # Streamlit Layout
 st.set_page_config(layout="wide")
 
-# col_logo, col_title = st.columns([1, 6])
+col_logo, col_title = st.columns([4, 1])
 
-#with col_logo:
-st.image("HSE-Logo.jpg", width=1000)
+with col_logo:
+    st.image("HSE-Logo.jpg", width=1000)
 
 #with col_title:
 st.title("Bestimmung des Wärmeübergangskoeffizienten")
