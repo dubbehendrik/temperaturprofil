@@ -9,10 +9,12 @@ import requests
 # Streamlit Layout
 st.set_page_config(layout="wide")
 
-col_logo, col_title = st.columns([6, 1])
-with col_logo:
-    st.title("Bestimmung des Wärmeübergangskoeffizienten")
+col_title, col_logo = st.columns([6, 1])
+
 with col_title:
+    st.title("Bestimmung des Wärmeübergangskoeffizienten")
+
+with col_logo:
     st.image("HSE-Logo.png", width=100)
 
 
@@ -26,6 +28,8 @@ Lade entweder eine eigene Excel-Datei hoch oder verwende eine der unten bereitge
 
 # Beispiel-Dateien laden
 col_demo1, col_demo2, col_demo3 = st.columns([1,1,2])
+
+
 
 with col_demo1:
 if st.button("Beispiel 1 laden"):
