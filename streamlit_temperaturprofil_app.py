@@ -285,7 +285,7 @@ Für Schäden materieller oder ideeller Art, die durch die Nutzung der App entst
 <br><br>
 <a href="mailto:hendrik.dubbe@hs-esslingen.de?subject=Anfrage%20zu%20Temperaturprofil-App" 
    style="color: gray; text-decoration: none;">
-Prof. Dr.-Ing. Hendrik Dubbe
+Prof. Dr.-Ing. Hendrik Dubbe 
 </a>
 </div>
 """, unsafe_allow_html=True)
