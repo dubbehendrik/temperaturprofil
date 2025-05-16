@@ -30,18 +30,16 @@ Lade entweder eine eigene Excel-Datei hoch oder verwende eine der unten bereitge
 col_demo1, col_demo2, col_demo3 = st.columns([1,1,2])
 
 with col_demo1:
+    uploaded_file = st.file_uploader("Lade eine Excel-Datei hoch", type=["xlsx"])
     if st.button("Beispiel 1 laden"):
         url = "https://github.com/dubbehendrik/temperaturprofil/blob/main/Exp_Temperaturprofil_ideal.xlsx"
         response = requests.get(url)
         if response.status_code == 200:
             st.session_state["uploaded_file"] = BytesIO(response.content)
             st.rerun()
-
-    uploaded_file = st.file_uploader("Lade eine Excel-Datei hoch", type=["xlsx"])
-    if file_to_use is not None:
-        df_raw = pd.read_excel(file_to_use)
         
 with col_demo2:
+    uploaded_file = st.file_uploader("Lade eine Excel-Datei hoch", type=["xlsx"])
     if st.button("Beispiel 2 laden"):
         url = "https://github.com/dubbehendrik/temperaturprofil/blob/main/Exp_Temperaturprofil_real.xlsx"
         response = requests.get(url)
@@ -55,7 +53,13 @@ with col_demo3:
         st.download_button("Beispieldatei herunterladen", f, file_name="Exp_Temperaturprofil_ideal.xlsx")
 
 # Abschnitt 1: Dateiupload
-uploaded_file = st.file_uploader("Lade eine Excel-Datei hoch", type=["xlsx"], key="uploaded_file")
+# Fallback: entweder eigene Datei (uploaded_file) oder Beispieldatei (session_state)
+file_to_use = st.session_state.get("uploaded_file") or uploaded_file
+
+if file_to_use is not None:
+    df_raw = pd.read_excel(file_to_use)
+    # Ab hier dein normaler Code weiter
+
 
 # Reset bei Datei-Löschen
 if uploaded_file is None and "df" in st.session_state:
