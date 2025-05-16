@@ -24,7 +24,7 @@ with st.expander("ℹ️ Hinweise zur Verwendung"):
     Diese App dient zur Bestimmung des Wärmeübergangskoeffizienten $\\alpha$ anhand gemessener Temperaturverläufe.
     
     Du hast zwei Möglichkeiten:
-    - **Eigene Excel-Datei hochladen** (mit Zeit und Temperaturdaten + Parametern).
+    - **Eigene Excel-Datei hochladen** anhand von Template (mit Zeit und Temperaturdaten + Parametern).
     - Oder **Beispieldateien verwenden**, um die Funktion zu testen.
 
     Die App berechnet per Kurvenfit den optimalen Wert für $\\alpha$ und zeigt zusätzlich $R^2$ und RMSE als Qualitätskennzahlen an.
@@ -55,7 +55,7 @@ with col_demo2:
 
 with col_demo3:
     with open("Exp_Temperaturprofil_ideal.xlsx", "rb") as f:
-        st.download_button("Beispieldatei herunterladen", f, file_name="Exp_Temperaturprofil_ideal.xlsx")
+        st.download_button("Template herunterladen", f, file_name="Exp_Temperaturprofil_ideal.xlsx")
 
 # Fallback: entweder Beispiel-Datei oder Upload
 file_to_use = st.session_state.get("uploaded_file") or uploaded_file
