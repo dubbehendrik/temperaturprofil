@@ -241,3 +241,12 @@ if "df" in st.session_state:
 
             except Exception as e:
                 st.error(f"Fehler beim Fit: {e}")
+
+# --- Achsen & Legende ---
+ax.set_xlabel("Zeit [s]")
+ax.set_ylabel("Temperatur [°C]")
+ax.set_title("Temperaturverlauf")
+ax.legend()
+
+# --- Jetzt Plot anzeigen ---
+st.pyplot(fig)
