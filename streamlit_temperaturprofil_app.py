@@ -34,6 +34,8 @@ Du hast zwei Möglichkeiten:
 - Oder **Beispieldaten verwenden**, um die Funktion zu testen.
 
 Die App berechnet per Kurvenfit den optimalen Wert für $\\alpha$ und zeigt zusätzlich $R^2$ und RMSE als Qualitätskennzahlen an.
+
+Wichtig: Wenn eine Excel-Datei geladen wurde muss diese entfernt werden (X) um wieder auf Beispieldaten zu wechseln. 
 """)
 
 # --- Datei-Upload vom Nutzer ---
