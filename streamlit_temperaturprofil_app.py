@@ -71,7 +71,7 @@ if uploaded_file is None and "df" in st.session_state:
     st.rerun()
 
 # Daten einlesen
-if uploaded_file and "df" not in st.session_state:
+if file_to_use is not None and "df" not in st.session_state:
     df_raw = pd.read_excel(uploaded_file)
     times = df_raw.iloc[:, 0].dropna().values
     temps = df_raw.iloc[:, 1].dropna().values
