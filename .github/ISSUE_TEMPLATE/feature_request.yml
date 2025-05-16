@@ -1,6 +1,8 @@
 name: Feature Request
 description: Schlagen Sie eine neue Funktionalität vor.
 labels: ["enhancement"]
+assignees:
+  - dubbehendrik
 body:
   - type: markdown
     attributes:
