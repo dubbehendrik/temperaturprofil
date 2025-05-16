@@ -1,0 +1,23 @@
+name: Bug Report
+description: Melden Sie einen Fehler im Programm.
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        **Vielen Dank, dass Sie einen Fehler melden!**
+        Bitte beschreiben Sie den Fehler so genau wie möglich.
+
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: Beschreiben Sie den Fehler, der aufgetreten ist
+      placeholder: Was ist passiert? Was hätten Sie erwartet?
+    validations:
+      required: true
+
+  - type: textarea
+    id: reproduction-steps
+    attributes:
+      label: Schritte zur Reproduktion
+      placeholder: 1. Was wurde getan? 2. Was war das erwartete Verhalten? 3. Was ist stattdessen passiert?
