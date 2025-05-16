@@ -92,7 +92,7 @@ if "file_to_use" in st.session_state:
             st.rerun()
 
 # --- Verarbeitung der Datei ---
-if "file_to_use" in st.session_state:
+if "file_to_use" in st.session_state and "df" not in st.session_state:
     df_raw = pd.read_excel(st.session_state.file_to_use)
 
 
