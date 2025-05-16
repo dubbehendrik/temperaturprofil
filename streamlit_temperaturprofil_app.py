@@ -39,7 +39,7 @@ if st.button("Beispiel 1 laden"):
         st.session_state.uploaded_file = BytesIO(response.content)
         st.rerun()
 
-uploaded_file = st.session_state.get("uploaded_file", st.file_uploader("Lade eine Excel-Datei hoch", type=["xlsx"]))
+    uploaded_file = st.session_state.get("uploaded_file", st.file_uploader("Lade eine Excel-Datei hoch", type=["xlsx"]))
 
 with col_demo2:
     if st.button("Beispiel 2 laden"):
