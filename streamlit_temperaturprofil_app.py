@@ -160,6 +160,13 @@ if "df" in st.session_state:
         # --- Plot-Placeholder: Der Plot wird hier immer reingerendert ---
         plot_placeholder = st.empty()
 
+    st.markdown("""
+    <style>
+    .param-block { margin-bottom: 1rem; }
+    .param-label { margin-top: 0.2rem; font-weight: 500; }
+    </style>
+    """, unsafe_allow_html=True)
+    
     with col_inputs:
         st.subheader("Parameter")
         
