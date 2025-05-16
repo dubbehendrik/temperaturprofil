@@ -57,13 +57,13 @@ with col_demo3:
     with open("Exp_Temperaturprofil_ideal.xlsx", "rb") as f:
         st.download_button("Template herunterladen", f, file_name="Exp_Temperaturprofil_ideal.xlsx")
 
-# --- Entscheide, was verwendet wird ---
+# --- Jetzt das "echte" file_to_use bestimmen ---
 file_to_use = uploaded_file if uploaded_file is not None else example_file
 
 # --- Falls Datei vorhanden, weiterverarbeiten ---
 if file_to_use is not None:
+    # Dein normaler Parsing- und Plot-Code ab hier:
     df_raw = pd.read_excel(file_to_use)
-    st.write("Daten erfolgreich geladen:", df_raw.head())
 
 # Reset bei Datei-Löschen
 if uploaded_file is None and "df" in st.session_state:
