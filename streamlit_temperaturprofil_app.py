@@ -39,6 +39,11 @@ Die App berechnet per Kurvenfit den optimalen Wert für $\\alpha$ und zeigt zus�
 # Datei-Upload vom Nutzer
 uploaded_file = st.file_uploader("Lade eine Excel-Datei hoch", type=["xlsx"])
 
+# Reset bei Datei-Löschen (egal ob Drag&Drop oder Beispiel)
+if uploaded_file is None and "df" in st.session_state:
+    st.session_state.clear()
+    st.rerun()
+
 # Platzhalter für Beispieldatei (initial None)
 example_file = None
 
