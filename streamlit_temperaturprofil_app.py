@@ -206,26 +206,23 @@ if "df" in st.session_state:
 
             try:
                 popt, _ = curve_fit(lambda t, alpha: temperature_model(t, alpha, cp, A, m, T0, T_inf),
-                                    t_data, T_data, p0=[10.0], bounds=(0, np.inf))
+                                    df_cut['Zeit_s'].values, df_cut['Temperatur_C'].values,
+                                    p0=[10.0], bounds=(0, np.inf))
                 alpha_fit = popt[0]
-
-                T_fit = temperature_model(t_data, alpha_fit, cp, A, m, T0, T_inf)
-                r_squared = calculate_r_squared(T_data, T_fit)
-                rmse = calculate_rmse(T_data, T_fit)
-
-                fig2, ax2 = plt.subplots()
-                ax2.plot(t_data, T_data, 'ro', label="Experiment")
-                ax2.plot(t_data, T_fit, 'b-', label="Simulation")
-                ax2.set_xlabel("Zeit [s]")
-                ax2.set_ylabel("Temperatur [°C]")
-                ax2.set_title("Temperaturverlauf mit Fit")
-                ax2.legend()
-                ax2.text(0.05, 0.8,
-                        f"$\\alpha_{{fit}}$ = {alpha_fit:.2f} $\\frac{{W}}{{m^2K}}$\n$R^2$ = {r_squared:.4f}\nRMSE = {rmse:.2f} \u00b0C",
-                        transform=ax2.transAxes,
+        
+                T_fit = temperature_model(df_cut['Zeit_s'].values, alpha_fit, cp, A, m, T0, T_inf)
+                r_squared = calculate_r_squared(df_cut['Temperatur_C'].values, T_fit)
+                rmse = calculate_rmse(df_cut['Temperatur_C'].values, T_fit)
+        
+                # --- Fit als Linie hinzufügen ---
+                ax.plot(df_cut['Zeit_s'], T_fit, 'b-', label="Simulation")
+        
+                # --- Fit-Werte als Textbox hinzufügen ---
+                ax.text(0.05, 0.95,
+                        f"$\\alpha_{{fit}}$ = {alpha_fit:.2f} $\\frac{{W}}{{m^2K}}$\n$R^2$ = {r_squared:.4f}\nRMSE = {rmse:.2f} °C",
+                        transform=ax.transAxes,
                         verticalalignment='top',
                         bbox=dict(boxstyle="round", facecolor="white", alpha=0.8))
-                st.pyplot(fig2)
 
                 with st.expander("\u2753 Hilfe zur Interpretation"):
                     st.markdown(r'''
