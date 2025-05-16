@@ -163,45 +163,26 @@ if "df" in st.session_state:
     with col_inputs:
         st.subheader("Parameter")
         
-        col1, col2 = st.columns([3, 2])
-        with col1:
-            st.markdown(r"Wärmekapazität $c_p\ \left[\frac{J}{\mathrm{kg}\,K}\right]$", unsafe_allow_html=True)
-        with col2:
-            st.markdown("<div style='margin-top: -10px;'>", unsafe_allow_html=True)
-            cp = st.number_input(label="", value=st.session_state.cp, key="cp_input")
-            st.markdown("</div>", unsafe_allow_html=True)
-        
-        col1, col2 = st.columns([3, 2])
-        with col1:
-            st.markdown(r"Oberfläche $A\ [m^2]$", unsafe_allow_html=True)
-        with col2:
-            st.markdown("<div style='margin-top: -10px;'>", unsafe_allow_html=True)
-            A = st.number_input(label="", value=st.session_state.A, key="A_input")
-            st.markdown("</div>", unsafe_allow_html=True)
-        
-        col1, col2 = st.columns([3, 2])
-        with col1:
-            st.markdown(r"Masse $m\ [kg]$", unsafe_allow_html=True)
-        with col2:
-            st.markdown("<div style='margin-top: -10px;'>", unsafe_allow_html=True)
-            m = st.number_input(label="", value=st.session_state.m, key="m_input")
-            st.markdown("</div>", unsafe_allow_html=True)
-        
-        col1, col2 = st.columns([3, 2])
-        with col1:
-            st.markdown(r"Anfangstemperatur $T_0\ [^\circ C]$", unsafe_allow_html=True)
-        with col2:
-            st.markdown("<div style='margin-top: -10px;'>", unsafe_allow_html=True)
-            T0 = st.number_input(label="", value=st.session_state.T0, key="T0_input")
-            st.markdown("</div>", unsafe_allow_html=True)
-        
-        col1, col2 = st.columns([3, 2])
-        with col1:
-            st.markdown(r"Umgebungstemperatur $T_\infty\ [^\circ C]$", unsafe_allow_html=True)
-        with col2:
-            st.markdown("<div style='margin-top: -10px;'>", unsafe_allow_html=True)
-            T_inf = st.number_input(label="", value=st.session_state.T_inf, key="Tinf_input")
-            st.markdown("</div>", unsafe_allow_html=True)
+        # Wärmekapazität
+        st.markdown(r"Wärmekapazität $c_p\ \left[\frac{J}{\mathrm{kg}\,K}\right]$", unsafe_allow_html=True)
+        cp = st.number_input(label="", value=st.session_state.cp, key="cp_input")
+    
+        # Oberfläche
+        st.markdown(r"Oberfläche $A\ [m^2]$", unsafe_allow_html=True)
+        A = st.number_input(label="", value=st.session_state.A, key="A_input")
+    
+        # Masse
+        st.markdown(r"Masse $m\ [kg]$", unsafe_allow_html=True)
+        m = st.number_input(label="", value=st.session_state.m, key="m_input")
+    
+        # Anfangstemperatur
+        st.markdown(r"Anfangstemperatur $T_0\ [^\circ C]$", unsafe_allow_html=True)
+        T0 = st.number_input(label="", value=st.session_state.T0, key="T0_input")
+    
+        # Umgebungstemperatur
+        st.markdown(r"Umgebungstemperatur $T_\infty\ [^\circ C]$", unsafe_allow_html=True)
+        T_inf = st.number_input(label="", value=st.session_state.T_inf, key="Tinf_input")
+            
         calculate_clicked = st.button("Calculate")
 
     # --- Plot jetzt erzeugen ---
