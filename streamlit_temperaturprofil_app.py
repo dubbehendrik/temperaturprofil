@@ -200,6 +200,9 @@ if "df" in st.session_state:
 
         calculate_clicked = st.button("Calculate")
 
+        # --- Platzhalter für Plot ---
+        plot_placeholder = st.empty()
+
         # --- Plot erzeugen ---
         fig, ax = plt.subplots()
         ax.plot(df_cut['Zeit_s'], df_cut['Temperatur_C'], 'ro', label="Experiment")
@@ -249,4 +252,4 @@ if "df" in st.session_state:
         ax.legend()
         
         # --- Jetzt Plot anzeigen ---
-        st.pyplot(fig)
+        plot_placeholder.pyplot(fig)
