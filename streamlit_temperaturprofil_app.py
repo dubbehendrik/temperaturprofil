@@ -80,7 +80,7 @@ with col_demo2:
 
 with col_demo3:
     with open("Exp_Temperaturprofil_ideal.xlsx", "rb") as f:
-        st.download_button("Template herunterladen", f, file_name="Exp_Temperaturprofil_ideal.xlsx")
+        st.download_button("📥 Template herunterladen", f, file_name="Exp_Temperaturprofil_ideal.xlsx")
 
 # --- Anzeige welcher Datei geladen ist + Entfernen-Button ---
 # --- Anzeige welcher Datei geladen ist ---
