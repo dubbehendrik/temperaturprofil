@@ -29,18 +29,18 @@ Lade entweder eine eigene Excel-Datei hoch oder verwende eine der unten bereitge
 # Beispiel-Dateien laden
 col_demo1, col_demo2, col_demo3 = st.columns([1,1,2])
 
-
-
 with col_demo1:
     if st.button("Beispiel 1 laden"):
-        url = "https://github.com/dubbehendrik/temperaturprofil/blob/main/Exp_Temperaturprofil_ideal.xlsx"
+        url = "https://raw.githubusercontent.com/<USER>/<REPO>/<BRANCH>/Exp_Temperaturprofil_ideal.xlsx"
         response = requests.get(url)
         if response.status_code == 200:
-            st.session_state.uploaded_file = BytesIO(response.content)
+            st.session_state["uploaded_file"] = BytesIO(response.content)
             st.rerun()
 
-    uploaded_file = st.session_state.get("uploaded_file", st.file_uploader("Lade eine Excel-Datei hoch", type=["xlsx"]))
-
+    uploaded_file = st.file_uploader("Lade eine Excel-Datei hoch", type=["xlsx"])
+    if file_to_use is not None:
+        df_raw = pd.read_excel(file_to_use)
+        
 with col_demo2:
     if st.button("Beispiel 2 laden"):
         url = "https://github.com/dubbehendrik/temperaturprofil/blob/main/Exp_Temperaturprofil_real.xlsx"
