@@ -93,7 +93,9 @@ if "file_to_use" in st.session_state:
 
 # --- Verarbeitung der Datei wenn vorhanden ---
 if "file_to_use" in st.session_state and "df" not in st.session_state:
-    df_raw = pd.read_excel(st.session_state.file_to_use)
+    file_like = st.session_state.get("file_to_use")
+    if file_like is not None:
+        df_raw = pd.read_excel(file_like)
 
 
 # Daten einlesen
