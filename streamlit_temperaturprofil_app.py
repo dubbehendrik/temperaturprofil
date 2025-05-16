@@ -82,14 +82,17 @@ with col_demo3:
         st.download_button("Template herunterladen", f, file_name="Exp_Temperaturprofil_ideal.xlsx")
 
 # --- Anzeige welcher Datei geladen ist + Entfernen-Button ---
+# --- Anzeige welcher Datei geladen ist ---
 if "file_to_use" in st.session_state:
     col_file, col_remove = st.columns([8, 2])
     with col_file:
         st.success(f"{st.session_state.source_label}")
     with col_remove:
-        if st.button("❌ Entfernen"):
-            st.session_state.clear()
-            st.rerun()
+        # ❌ Entfernen-Button nur bei Beispieldaten anzeigen
+        if st.session_state.get("uploaded_file") is None:
+            if st.button("❌ Entfernen"):
+                st.session_state.clear()
+                st.rerun()
 
 # --- Verarbeitung der Datei wenn vorhanden ---
 if "file_to_use" in st.session_state and "df" not in st.session_state:
