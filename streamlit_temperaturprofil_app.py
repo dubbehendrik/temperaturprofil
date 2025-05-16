@@ -255,10 +255,10 @@ col1, col2 = st.columns(2)
 
 with col1:
     st.markdown("""
-    [🐞 **Bug melden**](https://github.com/dubbehendrik/temperaturprofil/issues/new?title=Bug%20Report:%20&body=Beschreiben%20Sie%20den%20Fehler,%20der%20aufgetreten%20ist)
+    [🐞 **Bug melden**](https://github.com/dubbehendrik/temperaturprofil/issues/new?template=bug_report.yml)
     """, unsafe_allow_html=True)
 
 with col2:
     st.markdown("""
-    [✨ **Feature anfragen**](https://github.com/dubbehendrik/temperaturprofil/issues/new?title=Feature%20Request:%20&body=Bitte%20beschreiben%20Sie,%20welche%20Funktionalit%C3%A4t%20Sie%20im%20Programm%20erg%C3%A4nzt%20haben%20wollen)
+    [✨ **Feature anfragen**](https://github.com/dubbehendrik/temperaturprofil/issues/new?template=feature_request.yml)
     """, unsafe_allow_html=True)
