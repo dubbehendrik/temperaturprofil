@@ -9,12 +9,12 @@ import requests
 # Streamlit Layout
 st.set_page_config(layout="wide")
 
-col_logo, col_title = st.columns([1, 6])
+# col_logo, col_title = st.columns([1, 6])
 
-with col_title:
+#with col_title:
     st.title("Bestimmung des Wärmeübergangskoeffizienten")
 
-with col_logo:
+#with col_logo:
     st.image("HSE-Logo.jpg", width=1000)
 
 # Hinweistext
