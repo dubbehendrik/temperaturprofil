@@ -169,7 +169,7 @@ if "df" in st.session_state:
         col1, col2 = st.columns([3, 2])
         with col1:
             st.markdown(r"""
-            Wärmekapazität 
+            Wärmekapazität<br>
             $c_p\ \left[\frac{J}{\mathrm{kg}\,K}\right]$
             """, unsafe_allow_html=True)
         with col2:
@@ -178,8 +178,8 @@ if "df" in st.session_state:
         col1, col2 = st.columns([3, 2])
         with col1:
             st.markdown(r"""
-            Oberfläche 
-            $A$ $[m^2]$
+            Oberfläche<br>
+            $A\ [m^2]$
             """, unsafe_allow_html=True)
         with col2:
             A = st.number_input(label="", value=st.session_state.A)
@@ -187,8 +187,8 @@ if "df" in st.session_state:
         col1, col2 = st.columns([3, 2])
         with col1:
             st.markdown(r"""
-            Masse 
-            $m$ $[kg]$
+            Masse<br>
+            $m\ [kg]$
             """, unsafe_allow_html=True)
         with col2:
             m = st.number_input(label="", value=st.session_state.m)
@@ -196,8 +196,8 @@ if "df" in st.session_state:
         col1, col2 = st.columns([3, 2])
         with col1:
             st.markdown(r"""
-            Anfangstemperatur 
-            $T_0$ $[^\circ C]$
+            Anfangstemperatur<br>
+            $T_0\ [^\circ C]$
             """, unsafe_allow_html=True)
         with col2:
             T0 = st.number_input(label="", value=st.session_state.T0)
@@ -205,8 +205,8 @@ if "df" in st.session_state:
         col1, col2 = st.columns([3, 2])
         with col1:
             st.markdown(r"""
-            Umgebungstemperatur 
-            $T_\infty$ $[^\circ C]$
+            Umgebungstemperatur<br>
+            $T_\infty\ [^\circ C]$
             """, unsafe_allow_html=True)
         with col2:
             T_inf = st.number_input(label="", value=st.session_state.T_inf)
