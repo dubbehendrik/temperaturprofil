@@ -30,8 +30,8 @@ Lade entweder eine eigene Excel-Datei hoch oder verwende eine der unten bereitge
 col_demo1, col_demo2, col_demo3 = st.columns([1,1,2])
 
 with col_demo1:
-    uploaded_file = st.file_uploader("Lade eine Excel-Datei hoch", type=["xlsx"])
     if st.button("Beispiel 1 laden"):
+        uploaded_file = st.file_uploader("Lade eine Excel-Datei hoch", type=["xlsx"])
         url = "https://github.com/dubbehendrik/temperaturprofil/blob/main/Exp_Temperaturprofil_ideal.xlsx"
         response = requests.get(url)
         if response.status_code == 200:
@@ -55,6 +55,9 @@ with col_demo3:
 # Abschnitt 1: Dateiupload
 # Fallback: entweder eigene Datei (uploaded_file) oder Beispieldatei (session_state)
 file_to_use = st.session_state.get("uploaded_file") or uploaded_file
+
+
+
 
 if file_to_use is not None:
     df_raw = pd.read_excel(file_to_use)
