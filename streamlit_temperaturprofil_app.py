@@ -21,20 +21,20 @@ with col_logo:
 # Hinweistext
 with st.expander("ℹ️ Hinweise zur Verwendung"):
     st.markdown(r"""
-    Diese App dient zur Bestimmung des Wärmeübergangskoeffizienten $\\alpha$ anhand gemessener Temperaturverläufe.
+Diese App dient zur Bestimmung des Wärmeübergangskoeffizienten $\\alpha$ anhand gemessener Temperaturverläufe.
 
-    Die zugrunde liegende Gleichung lautet:
+Die zugrunde liegende Gleichung lautet:
 
-    $$
-    T(t) = T_\\infty - (T_\\infty - T_0) \cdot e^{-\\frac{\\alpha A}{m c_p} t}
-    $$
+$$
+T(t) = T_\\infty - (T_\\infty - T_0) \cdot e^{-\\frac{\\alpha A}{m c_p} t}
+$$
 
-    Du hast zwei Möglichkeiten:
-    - **Eigene Excel-Datei hochladen** anhand des Templates (mit Zeit- und Temperaturdaten + Parametern).
-    - Oder **Beispieldaten verwenden**, um die Funktion zu testen.
+Du hast zwei Möglichkeiten:
+- **Eigene Excel-Datei hochladen** anhand des Templates (mit Zeit- und Temperaturdaten + Parametern).
+- Oder **Beispieldaten verwenden**, um die Funktion zu testen.
 
-    Die App berechnet per Kurvenfit den optimalen Wert für $\\alpha$ und zeigt zusätzlich $R^2$ und RMSE als Qualitätskennzahlen an.
-    """)
+Die App berechnet per Kurvenfit den optimalen Wert für $\\alpha$ und zeigt zusätzlich $R^2$ und RMSE als Qualitätskennzahlen an.
+""")
 
 # Datei-Upload vom Nutzer
 uploaded_file = st.file_uploader("Lade eine Excel-Datei hoch", type=["xlsx"])
