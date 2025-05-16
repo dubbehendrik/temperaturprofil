@@ -157,99 +157,66 @@ if "df" in st.session_state:
         df_cut = df[(df['Zeit_s'] >= time_range[0]) & (df['Zeit_s'] <= time_range[1])].copy()
         df_cut['Zeit_s'] = df_cut['Zeit_s'] - df_cut['Zeit_s'].min()
 
-        fig, ax = plt.subplots()
-        ax.plot(df_cut['Zeit_s'], df_cut['Temperatur_C'], 'ro', label="Experiment")
-        ax.set_xlabel("Zeit [s]")
-        ax.set_ylabel("Temperatur [°C]")
-        ax.set_title("Temperaturverlauf")
-        ax.legend()
-        st.pyplot(fig)
+        # --- Plot-Placeholder: Der Plot wird hier immer reingerendert ---
+        plot_placeholder = st.empty()
 
     with col_inputs:
         st.subheader("Parameter")
 
-        col1, col2 = st.columns([2, 3])
-        with col1:
-            st.markdown(r"Wärmekapazität $c_p\ \left[\frac{J}{\mathrm{kg}\,K}\right]$", unsafe_allow_html=True)
-        with col2:
-            cp = st.number_input(label="", value=st.session_state.cp)
-
-        col1, col2 = st.columns([2, 3])
-        with col1:
-            st.markdown(r"Oberfläche $A$ $[m^2]$", unsafe_allow_html=True)
-        with col2:
-            A = st.number_input(label="", value=st.session_state.A)
-
-        col1, col2 = st.columns([2, 3])
-        with col1:
-            st.markdown(r"Masse $m$ $[kg]$", unsafe_allow_html=True)
-        with col2:
-            m = st.number_input(label="", value=st.session_state.m)
-
-        col1, col2 = st.columns([2, 3])
-        with col1:
-            st.markdown(r"Anfangstemperatur $T_0$ $[^\circ C]$", unsafe_allow_html=True)
-        with col2:
-            T0 = st.number_input(label="", value=st.session_state.T0)
-
-        col1, col2 = st.columns([2, 3])
-        with col1:
-            st.markdown(r"Umgebungstemperatur $T_\infty$ $[^\circ C]$", unsafe_allow_html=True)
-        with col2:
-            T_inf = st.number_input(label="", value=st.session_state.T_inf)
+        cp = st.number_input("Wärmekapazität $c_p\ \left[\frac{J}{\mathrm{kg}\,K}\right]$", value=st.session_state.cp)
+        A = st.number_input("Oberfläche $A$ $[m^2]$", value=st.session_state.A)
+        m = st.number_input("Masse $m$ $[kg]$", value=st.session_state.m)
+        T0 = st.number_input("Anfangstemperatur $T_0$ $[^\circ C]$", value=st.session_state.T0)
+        T_inf = st.number_input("Umgebungstemperatur $T_\infty$ $[^\circ C]$", value=st.session_state.T_inf)
 
         calculate_clicked = st.button("Calculate")
 
-        # --- Platzhalter für Plot ---
-        plot_placeholder = st.empty()
+    # --- Plot jetzt erzeugen ---
+    fig, ax = plt.subplots()
+    ax.plot(df_cut['Zeit_s'], df_cut['Temperatur_C'], 'ro', label="Experiment")
 
-        # --- Plot erzeugen ---
-        fig, ax = plt.subplots()
-        ax.plot(df_cut['Zeit_s'], df_cut['Temperatur_C'], 'ro', label="Experiment")
-        
-        if calculate_clicked:
-            t_data = df_cut['Zeit_s'].values
-            T_data = df_cut['Temperatur_C'].values
+    # --- Falls Calculate gedrückt: Simulation ergänzen ---
+    if calculate_clicked:
+        try:
+            popt, _ = curve_fit(lambda t, alpha: temperature_model(t, alpha, cp, A, m, T0, T_inf),
+                                df_cut['Zeit_s'].values, df_cut['Temperatur_C'].values,
+                                p0=[10.0], bounds=(0, np.inf))
+            alpha_fit = popt[0]
 
-            try:
-                popt, _ = curve_fit(lambda t, alpha: temperature_model(t, alpha, cp, A, m, T0, T_inf),
-                                    df_cut['Zeit_s'].values, df_cut['Temperatur_C'].values,
-                                    p0=[10.0], bounds=(0, np.inf))
-                alpha_fit = popt[0]
-        
-                T_fit = temperature_model(df_cut['Zeit_s'].values, alpha_fit, cp, A, m, T0, T_inf)
-                r_squared = calculate_r_squared(df_cut['Temperatur_C'].values, T_fit)
-                rmse = calculate_rmse(df_cut['Temperatur_C'].values, T_fit)
-        
-                # --- Fit als Linie hinzufügen ---
-                ax.plot(df_cut['Zeit_s'], T_fit, 'b-', label="Simulation")
-        
-                # --- Fit-Werte als Textbox hinzufügen ---
-                ax.text(0.05, 0.95,
-                        f"$\\alpha_{{fit}}$ = {alpha_fit:.2f} $\\frac{{W}}{{m^2K}}$\n$R^2$ = {r_squared:.4f}\nRMSE = {rmse:.2f} °C",
-                        transform=ax.transAxes,
-                        verticalalignment='top',
-                        bbox=dict(boxstyle="round", facecolor="white", alpha=0.8))
+            T_fit = temperature_model(df_cut['Zeit_s'].values, alpha_fit, cp, A, m, T0, T_inf)
+            r_squared = calculate_r_squared(df_cut['Temperatur_C'].values, T_fit)
+            rmse = calculate_rmse(df_cut['Temperatur_C'].values, T_fit)
 
-                with st.expander("\u2753 Hilfe zur Interpretation"):
-                    st.markdown(r'''
-                    **R² (Bestimmtheitsmaß)**:
-                    - Gibt an, wie gut das Modell die Daten erklärt.
-                    - Werte nahe 1 bedeuten eine sehr gute Anpassung.
+            # --- Fit-Linie hinzufügen ---
+            ax.plot(df_cut['Zeit_s'], T_fit, 'b-', label="Simulation")
 
-                    **RMSE (Root Mean Square Error)**:
-                    - Gibt die durchschnittliche Abweichung zwischen Messung und Modell an.
-                    - Je kleiner der RMSE, desto besser die Anpassung.                   
-                    ''')
+            # --- Fit-Werte als Textbox ---
+            ax.text(0.05, 0.95,
+                    f"$\\alpha_{{fit}}$ = {alpha_fit:.2f} $\\frac{{W}}{{m^2K}}$\n$R^2$ = {r_squared:.4f}\nRMSE = {rmse:.2f} °C",
+                    transform=ax.transAxes,
+                    verticalalignment='top',
+                    bbox=dict(boxstyle="round", facecolor="white", alpha=0.8))
 
-            except Exception as e:
-                st.error(f"Fehler beim Fit: {e}")
+            with st.expander("\u2753 Hilfe zur Interpretation"):
+                st.markdown(r'''
+                **R² (Bestimmtheitsmaß)**:
+                - Gibt an, wie gut das Modell die Daten erklärt.
+                - Werte nahe 1 bedeuten eine sehr gute Anpassung.
 
-        # --- Achsen & Legende ---
-        ax.set_xlabel("Zeit [s]")
-        ax.set_ylabel("Temperatur [°C]")
-        ax.set_title("Temperaturverlauf")
-        ax.legend()
-        
-        # --- Jetzt Plot anzeigen ---
-        plot_placeholder.pyplot(fig)
+                **RMSE (Root Mean Square Error)**:
+                - Gibt die durchschnittliche Abweichung zwischen Messung und Modell an.
+                - Je kleiner der RMSE, desto besser die Anpassung.
+                ''')
+
+        except Exception as e:
+            st.error(f"Fehler beim Fit: {e}")
+
+    # --- Achsen & Legende ---
+    ax.set_xlabel("Zeit [s]")
+    ax.set_ylabel("Temperatur [°C]")
+    ax.set_title("Temperaturverlauf")
+    ax.legend()
+
+    # --- Plot anzeigen ---
+    plot_placeholder.pyplot(fig)
+
