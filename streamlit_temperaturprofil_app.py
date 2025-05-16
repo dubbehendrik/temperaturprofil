@@ -30,43 +30,40 @@ with st.expander("ℹ️ Hinweise zur Verwendung"):
     Die App berechnet per Kurvenfit den optimalen Wert für $\\alpha$ und zeigt zusätzlich $R^2$ und RMSE als Qualitätskennzahlen an.
     """)
 
-# Datei-Uploader EINMAL definieren
+# Datei-Upload vom Nutzer
 uploaded_file = st.file_uploader("Lade eine Excel-Datei hoch", type=["xlsx"])
+
+# Platzhalter für Beispieldatei (initial None)
+example_file = None
 
 # Zwei Beispiel-Buttons
 col_demo1, col_demo2, col_demo3 = st.columns(3)
 
-
-with col_demo1:
+with col1:
     if st.button("Beispiel 1 laden"):
         url = "https://raw.githubusercontent.com/dubbehendrik/temperaturprofil/main/Exp_Temperaturprofil_ideal.xlsx"
         response = requests.get(url)
         if response.status_code == 200:
-            st.session_state["uploaded_file"] = BytesIO(response.content)
-            st.rerun()
+            example_file = BytesIO(response.content)
 
-with col_demo2:
+with col2:
     if st.button("Beispiel 2 laden"):
         url = "https://raw.githubusercontent.com/dubbehendrik/temperaturprofil/main/Exp_Temperaturprofil_real.xlsx"
         response = requests.get(url)
         if response.status_code == 200:
-            st.session_state["uploaded_file"] = BytesIO(response.content)
-            st.rerun()
-
-# Entscheiden, was verwendet wird:
-file_to_use = st.session_state.get("uploaded_file") or uploaded_file
+            example_file = BytesIO(response.content)
 
 with col_demo3:
     with open("Exp_Temperaturprofil_ideal.xlsx", "rb") as f:
         st.download_button("Template herunterladen", f, file_name="Exp_Temperaturprofil_ideal.xlsx")
 
-# Fallback: entweder Beispiel-Datei oder Upload
-file_to_use = st.session_state.get("uploaded_file") or uploaded_file
+# --- Entscheide, was verwendet wird ---
+file_to_use = uploaded_file if uploaded_file is not None else example_file
 
-# Jetzt prüfen ob etwas da ist
+# --- Falls Datei vorhanden, weiterverarbeiten ---
 if file_to_use is not None:
     df_raw = pd.read_excel(file_to_use)
-
+    st.write("Daten erfolgreich geladen:", df_raw.head())
 
 # Reset bei Datei-Löschen
 if uploaded_file is None and "df" in st.session_state:
