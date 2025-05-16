@@ -275,15 +275,13 @@ with col2:
 st.markdown("""---""")
 
 st.markdown("""
-<div style="font-size: 0.85rem; color: gray; text-align: center; line-height: 1.4;">
+<div style="font-size: 0.5rem; color: gray; text-align: center; line-height: 1.4;">
 <b>Disclaimer:</b><br>
 Diese Anwendung dient ausschließlich zu Demonstrations- und Lehrzwecken. 
 Es wird keine Gewähr für die Richtigkeit, Vollständigkeit oder Aktualität der bereitgestellten Inhalte übernommen.<br>
 Die Nutzung erfolgt auf eigene Verantwortung.<br>
 Eine kommerzielle Verwendung ist ausdrücklich nicht gestattet.<br>
 Für Schäden materieller oder ideeller Art, die durch die Nutzung der App entstehen, wird keine Haftung übernommen.
-
-
-Prof. Dr.-Ing. Hendrik Dubbe
+<br><br>Prof. Dr.-Ing. Hendrik Dubbe
 </div>
 """, unsafe_allow_html=True)
