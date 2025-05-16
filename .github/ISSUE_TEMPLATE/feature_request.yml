@@ -1,0 +1,17 @@
+name: Feature Request
+description: Schlagen Sie eine neue Funktionalität vor.
+labels: ["enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        **Vielen Dank für Ihren Vorschlag!**
+        Bitte beschreiben Sie die gewünschte Funktionalität.
+
+  - type: textarea
+    id: what-should-be-done
+    attributes:
+      label: Bitte beschreiben Sie, welche Funktionalität Sie im Programm ergänzt haben wollen
+      placeholder: Welche Funktionalität wünschen Sie sich? Warum wäre das hilfreich?
+    validations:
+      required: true
