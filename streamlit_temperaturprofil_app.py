@@ -96,6 +96,23 @@ if "file_to_use" in st.session_state:
                 st.session_state.clear()
                 st.rerun()
 
+
+# --- Temperaturmodell Funktion ---
+def temperature_model(t, alpha, cp, A, m, T0, T_inf):
+    return T_inf - (T_inf - T0) * np.exp(-alpha * A * t / (m * cp))
+
+# --- R² Funktion ---
+def calculate_r_squared(y_true, y_pred):
+    residuals = y_true - y_pred
+    ss_res = np.sum(residuals**2)
+    ss_tot = np.sum((y_true - np.mean(y_true))**2)
+    r_squared = 1 - (ss_res / ss_tot)
+    return r_squared
+
+# --- RMSE Funktion ---
+def calculate_rmse(y_true, y_pred):
+    return np.sqrt(np.mean((y_true - y_pred)**2))
+
 # --- Verarbeitung der Datei wenn vorhanden ---
 if "file_to_use" in st.session_state and "df" not in st.session_state:
     file_like = st.session_state.get("file_to_use")
