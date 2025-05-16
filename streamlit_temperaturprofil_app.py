@@ -200,6 +200,10 @@ if "df" in st.session_state:
 
         calculate_clicked = st.button("Calculate")
 
+        # --- Plot erzeugen ---
+        fig, ax = plt.subplots()
+        ax.plot(df_cut['Zeit_s'], df_cut['Temperatur_C'], 'ro', label="Experiment")
+        
         if calculate_clicked:
             t_data = df_cut['Zeit_s'].values
             T_data = df_cut['Temperatur_C'].values
