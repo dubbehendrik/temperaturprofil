@@ -164,24 +164,29 @@ if "df" in st.session_state:
         st.subheader("Parameter")
         
         # Wärmekapazität
-        st.markdown(r"Wärmekapazität $c_p\ \left[\frac{J}{\mathrm{kg}\,K}\right]$", unsafe_allow_html=True)
         cp = st.number_input(label="", value=st.session_state.cp, key="cp_input")
+        st.markdown(r"Wärmekapazität $c_p\ \left[\frac{J}{\mathrm{kg}\,K}\right]$", unsafe_allow_html=True)
+        
     
         # Oberfläche
-        st.markdown(r"Oberfläche $A\ [m^2]$", unsafe_allow_html=True)
         A = st.number_input(label="", value=st.session_state.A, key="A_input")
+        st.markdown(r"Oberfläche $A\ [m^2]$", unsafe_allow_html=True)
+        
     
         # Masse
-        st.markdown(r"Masse $m\ [kg]$", unsafe_allow_html=True)
         m = st.number_input(label="", value=st.session_state.m, key="m_input")
+        st.markdown(r"Masse $m\ [kg]$", unsafe_allow_html=True)
+        
     
         # Anfangstemperatur
-        st.markdown(r"Anfangstemperatur $T_0\ [^\circ C]$", unsafe_allow_html=True)
         T0 = st.number_input(label="", value=st.session_state.T0, key="T0_input")
+        st.markdown(r"Anfangstemperatur $T_0\ [^\circ C]$", unsafe_allow_html=True)
+        
     
         # Umgebungstemperatur
-        st.markdown(r"Umgebungstemperatur $T_\infty\ [^\circ C]$", unsafe_allow_html=True)
         T_inf = st.number_input(label="", value=st.session_state.T_inf, key="Tinf_input")
+        st.markdown(r"Umgebungstemperatur $T_\infty\ [^\circ C]$", unsafe_allow_html=True)
+        
             
         calculate_clicked = st.button("Calculate")
 
