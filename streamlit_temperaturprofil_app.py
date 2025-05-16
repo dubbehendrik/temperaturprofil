@@ -98,9 +98,9 @@ if "file_to_use" in st.session_state and "df" not in st.session_state:
         df_raw = pd.read_excel(file_like)
 
 
-# Daten einlesen
-if "file_to_use" is not None and "df" not in st.session_state:
-    df_raw = pd.read_excel(st.session_state.file_to_use)
+if "file_to_use" in st.session_state and st.session_state["file_to_use"] is not None:
+    df_raw = pd.read_excel(st.session_state["file_to_use"])
+    
     times = df_raw.iloc[:, 0].dropna().values
     temps = df_raw.iloc[:, 1].dropna().values
     min_len = min(len(times), len(temps))
