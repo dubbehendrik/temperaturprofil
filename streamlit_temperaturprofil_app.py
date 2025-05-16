@@ -60,19 +60,14 @@ with col_demo3:
 # --- Jetzt das "echte" file_to_use bestimmen ---
 file_to_use = uploaded_file if uploaded_file is not None else example_file
 
-# --- Falls Datei vorhanden, weiterverarbeiten ---
-if file_to_use is not None:
-    # Dein normaler Parsing- und Plot-Code ab hier:
-    df_raw = pd.read_excel(file_to_use)
-
 # Reset bei Datei-Löschen
-if uploaded_file is None and "df" in st.session_state:
+if file_to_use is None and "df" in st.session_state:
     st.session_state.clear()
     st.rerun()
 
 # Daten einlesen
 if file_to_use is not None and "df" not in st.session_state:
-    df_raw = pd.read_excel(uploaded_file)
+    df_raw = pd.read_excel(file_to_use)
     times = df_raw.iloc[:, 0].dropna().values
     temps = df_raw.iloc[:, 1].dropna().values
     min_len = min(len(times), len(temps))
@@ -81,7 +76,7 @@ if file_to_use is not None and "df" not in st.session_state:
     st.session_state.df = pd.DataFrame({"Zeit_s": times, "Temperatur_C": temps})
 
     # Parameter auslesen
-    params = pd.read_excel(uploaded_file, usecols=[5], skiprows=1, nrows=5, header=None)
+    params = pd.read_excel(file_to_use, usecols=[5], skiprows=1, nrows=5, header=None)
     st.session_state.cp = float(params.iloc[0, 0])
     st.session_state.A = float(params.iloc[1, 0])
     st.session_state.m = float(params.iloc[2, 0])
