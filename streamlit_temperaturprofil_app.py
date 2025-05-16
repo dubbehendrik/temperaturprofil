@@ -32,12 +32,12 @@ col_demo1, col_demo2, col_demo3 = st.columns([1,1,2])
 
 
 with col_demo1:
-if st.button("Beispiel 1 laden"):
-    url = "https://raw.githubusercontent.com/<USER>/<REPO>/<BRANCH>/Exp_Temperaturprofil_ideal.xlsx"
-    response = requests.get(url)
-    if response.status_code == 200:
-        st.session_state.uploaded_file = BytesIO(response.content)
-        st.rerun()
+    if st.button("Beispiel 1 laden"):
+        url = "https://raw.githubusercontent.com/<USER>/<REPO>/<BRANCH>/Exp_Temperaturprofil_ideal.xlsx"
+        response = requests.get(url)
+        if response.status_code == 200:
+            st.session_state.uploaded_file = BytesIO(response.content)
+            st.rerun()
 
     uploaded_file = st.session_state.get("uploaded_file", st.file_uploader("Lade eine Excel-Datei hoch", type=["xlsx"]))
 
