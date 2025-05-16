@@ -36,10 +36,12 @@ Du hast zwei Möglichkeiten:
 Die App berechnet per Kurvenfit den optimalen Wert für $\\alpha$ und zeigt zusätzlich $R^2$ und RMSE als Qualitätskennzahlen an.
 """)
     
-# Datei-Upload vom Nutzer
-uploaded_file = st.file_uploader("Lade eine Excel-Datei hoch", type=["xlsx"])
+# Wenn User eine Datei hochlädt (uploaded_file != None), aber noch alte Daten da sind → SessionState resetten
+if uploaded_file is not None and "df" in st.session_state:
+    st.session_state.clear()
+    st.rerun()
 
-# Reset bei Datei-Löschen (egal ob Drag&Drop oder Beispiel)
+# Falls keine Datei mehr da ist (X geklickt) → ebenfalls resetten
 if uploaded_file is None and "df" in st.session_state:
     st.session_state.clear()
     st.rerun()
