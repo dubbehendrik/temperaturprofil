@@ -43,7 +43,7 @@ with col_demo1:
 
 with col_demo2:
     if st.button("Beispiel 2 laden"):
-        url = "https://raw.githubusercontent.com/dubbehendrik/temperaturprofil/main/Exp_Temperaturprofil_real.xlsx"
+        url = "Exp_Temperaturprofil_real.xlsx"
         response = requests.get(url)
         if response.status_code == 200:
             st.session_state["uploaded_file"] = BytesIO(response.content)
