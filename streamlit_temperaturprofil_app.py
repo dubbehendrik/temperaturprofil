@@ -164,34 +164,50 @@ if "df" in st.session_state:
         st.subheader("Parameter")
 
         st.markdown("&nbsp;", unsafe_allow_html=True)  # fügt Abstand ein
+        st.markdown("&nbsp;", unsafe_allow_html=True)  # fügt Abstand ein
         
         col1, col2 = st.columns([3, 2])
         with col1:
-            st.markdown(r"Wärmekapazität $c_p\ \left[\frac{J}{\mathrm{kg}\,K}\right]$", unsafe_allow_html=True)
+            st.markdown(r"""
+            Wärmekapazität 
+            $c_p\ \left[\frac{J}{\mathrm{kg}\,K}\right]$
+            """, unsafe_allow_html=True)
         with col2:
             cp = st.number_input(label="", value=st.session_state.cp)
 
         col1, col2 = st.columns([3, 2])
         with col1:
-            st.markdown(r"Oberfläche $A$ $[m^2]$", unsafe_allow_html=True)
+            st.markdown(r"""
+            Oberfläche 
+            $A$ $[m^2]$
+            """, unsafe_allow_html=True)
         with col2:
             A = st.number_input(label="", value=st.session_state.A)
 
-        col1, col2 = st.columns([2, 3])
+        col1, col2 = st.columns([3, 2])
         with col1:
-            st.markdown(r"Masse $m$ $[kg]$", unsafe_allow_html=True)
+            st.markdown(r"""
+            Masse 
+            $m$ $[kg]$
+            """, unsafe_allow_html=True)
         with col2:
             m = st.number_input(label="", value=st.session_state.m)
 
         col1, col2 = st.columns([3, 2])
         with col1:
-            st.markdown(r"Anfangstemperatur $T_0$ $[^\circ C]$", unsafe_allow_html=True)
+            st.markdown(r"""
+            Anfangstemperatur 
+            $T_0$ $[^\circ C]$
+            """, unsafe_allow_html=True)
         with col2:
             T0 = st.number_input(label="", value=st.session_state.T0)
 
         col1, col2 = st.columns([3, 2])
         with col1:
-            st.markdown(r"Umgebungstemperatur $T_\infty$ $[^\circ C]$", unsafe_allow_html=True)
+            st.markdown(r"""
+            Umgebungstemperatur 
+            $T_\infty$ $[^\circ C]$
+            """, unsafe_allow_html=True)
         with col2:
             T_inf = st.number_input(label="", value=st.session_state.T_inf)
 
