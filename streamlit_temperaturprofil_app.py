@@ -53,6 +53,9 @@ with col_demo2:
             st.session_state["uploaded_file"] = BytesIO(response.content)
             st.rerun()
 
+# Entscheiden, was verwendet wird:
+file_to_use = st.session_state.get("uploaded_file") or uploaded_file
+
 with col_demo3:
     with open("Exp_Temperaturprofil_ideal.xlsx", "rb") as f:
         st.download_button("Template herunterladen", f, file_name="Exp_Temperaturprofil_ideal.xlsx")
