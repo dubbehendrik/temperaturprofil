@@ -26,42 +26,39 @@ Diese App dient zur Bestimmung des Wärmeübergangskoeffizienten ($\alpha$) anha
 Lade entweder eine eigene Excel-Datei hoch oder verwende eine der unten bereitgestellten Beispieldateien.
 """)
 
-# Beispiel-Dateien laden
-col_demo1, col_demo2, col_demo3 = st.columns([1,1,2])
+# Datei-Uploader EINMAL definieren
+uploaded_file = st.file_uploader("Lade eine Excel-Datei hoch", type=["xlsx"])
+
+# Zwei Beispiel-Buttons
+col_demo1, col_demo2, col_demo3 = st.columns(3)
+
 
 with col_demo1:
     if st.button("Beispiel 1 laden"):
-        uploaded_file = st.file_uploader("Lade eine Excel-Datei hoch", type=["xlsx"])
-        url = "https://github.com/dubbehendrik/temperaturprofil/blob/main/Exp_Temperaturprofil_ideal.xlsx"
+        url = "https://raw.githubusercontent.com/dubbehendrik/temperaturprofil/main/Exp_Temperaturprofil_ideal.xlsx"
         response = requests.get(url)
         if response.status_code == 200:
             st.session_state["uploaded_file"] = BytesIO(response.content)
             st.rerun()
-        
+
 with col_demo2:
-    uploaded_file = st.file_uploader("Lade eine Excel-Datei hoch", type=["xlsx"])
     if st.button("Beispiel 2 laden"):
-        url = "https://github.com/dubbehendrik/temperaturprofil/blob/main/Exp_Temperaturprofil_real.xlsx"
+        url = "https://raw.githubusercontent.com/dubbehendrik/temperaturprofil/main/Exp_Temperaturprofil_real.xlsx"
         response = requests.get(url)
         if response.status_code == 200:
-            uploaded_file = BytesIO(response.content)
-            st.session_state.uploaded_file = uploaded_file
+            st.session_state["uploaded_file"] = BytesIO(response.content)
             st.rerun()
 
 with col_demo3:
     with open("Exp_Temperaturprofil_ideal.xlsx", "rb") as f:
         st.download_button("Beispieldatei herunterladen", f, file_name="Exp_Temperaturprofil_ideal.xlsx")
 
-# Abschnitt 1: Dateiupload
-# Fallback: entweder eigene Datei (uploaded_file) oder Beispieldatei (session_state)
+# Fallback: entweder Beispiel-Datei oder Upload
 file_to_use = st.session_state.get("uploaded_file") or uploaded_file
 
-
-
-
+# Jetzt prüfen ob etwas da ist
 if file_to_use is not None:
     df_raw = pd.read_excel(file_to_use)
-    # Ab hier dein normaler Code weiter
 
 
 # Reset bei Datei-Löschen
