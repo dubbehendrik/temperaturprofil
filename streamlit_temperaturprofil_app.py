@@ -39,14 +39,14 @@ example_file = None
 # Zwei Beispiel-Buttons
 col_demo1, col_demo2, col_demo3 = st.columns(3)
 
-with col1:
+with col_demo1:
     if st.button("Beispiel 1 laden"):
         url = "https://raw.githubusercontent.com/dubbehendrik/temperaturprofil/main/Exp_Temperaturprofil_ideal.xlsx"
         response = requests.get(url)
         if response.status_code == 200:
             example_file = BytesIO(response.content)
 
-with col2:
+with col_demo2:
     if st.button("Beispiel 2 laden"):
         url = "https://raw.githubusercontent.com/dubbehendrik/temperaturprofil/main/Exp_Temperaturprofil_real.xlsx"
         response = requests.get(url)
