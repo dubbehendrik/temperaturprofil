@@ -1,6 +1,8 @@
 name: Bug Report
 description: Melden Sie einen Fehler im Programm.
 labels: ["bug"]
+assignees:
+  - dubbehendrik
 body:
   - type: markdown
     attributes:
