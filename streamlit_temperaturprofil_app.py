@@ -15,7 +15,7 @@ with col_title:
     st.title("Bestimmung des Wärmeübergangskoeffizienten")
 
 with col_logo:
-    st.image("HSE-Logo.jpg", width=300)
+    st.image("HSE-Logo.jpg", width=1000)
 
 
 # Hinweistext
