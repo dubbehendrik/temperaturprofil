@@ -22,7 +22,7 @@ with col_logo:
 st.markdown("""
 **Hinweis zur Verwendung:**
 
-Diese App dient zur Bestimmung des Wärmeübergangskoeffizienten $\( \alpha \)$ anhand von gemessenen Aufheiz- oder Abkühldaten. 
+Diese App dient zur Bestimmung des Wärmeübergangskoeffizienten ($\alpha$) anhand von gemessenen Aufheiz- oder Abkühldaten. 
 Lade entweder eine eigene Excel-Datei hoch oder verwende eine der unten bereitgestellten Beispieldateien.
 """)
 
