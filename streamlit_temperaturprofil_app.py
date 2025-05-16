@@ -36,10 +36,10 @@ Du hast zwei Möglichkeiten:
 Die App berechnet per Kurvenfit den optimalen Wert für $\\alpha$ und zeigt zusätzlich $R^2$ und RMSE als Qualitätskennzahlen an.
 """)
 
-# Datei-Upload vom Nutzer
+# --- Datei-Upload vom Nutzer ---
 uploaded_file = st.file_uploader("Lade eine Excel-Datei hoch", type=["xlsx"])
 
-# Wenn User eine Datei hochlädt → SessionState setzen & rerun
+# --- User lädt eigene Datei hoch → SessionState setzen & rerun ---
 if uploaded_file is not None and uploaded_file != st.session_state.get("uploaded_file"):
     st.session_state.clear()
     st.session_state.uploaded_file = uploaded_file
@@ -47,7 +47,7 @@ if uploaded_file is not None and uploaded_file != st.session_state.get("uploaded
     st.session_state.source_label = uploaded_file.name
     st.rerun()
 
-# Wenn User im Upload das X klickt → SessionState löschen
+# --- User klickt im Upload X → SessionState löschen ---
 if uploaded_file is None and "file_to_use" in st.session_state and st.session_state.get("uploaded_file") is not None:
     st.session_state.clear()
     st.rerun()
@@ -81,7 +81,7 @@ with col_demo3:
     with open("Exp_Temperaturprofil_ideal.xlsx", "rb") as f:
         st.download_button("Template herunterladen", f, file_name="Exp_Temperaturprofil_ideal.xlsx")
 
-# --- Anzeige welcher Datei geladen ist ---
+# --- Anzeige welcher Datei geladen ist + Entfernen-Button ---
 if "file_to_use" in st.session_state:
     col_file, col_remove = st.columns([8, 2])
     with col_file:
@@ -91,7 +91,7 @@ if "file_to_use" in st.session_state:
             st.session_state.clear()
             st.rerun()
 
-# --- Verarbeitung der Datei ---
+# --- Verarbeitung der Datei wenn vorhanden ---
 if "file_to_use" in st.session_state and "df" not in st.session_state:
     df_raw = pd.read_excel(st.session_state.file_to_use)
 
