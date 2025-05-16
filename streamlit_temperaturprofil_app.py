@@ -282,6 +282,10 @@ Es wird keine Gewähr für die Richtigkeit, Vollständigkeit oder Aktualität de
 Die Nutzung erfolgt auf eigene Verantwortung.<br>
 Eine kommerzielle Verwendung ist ausdrücklich nicht gestattet.<br>
 Für Schäden materieller oder ideeller Art, die durch die Nutzung der App entstehen, wird keine Haftung übernommen.
-<br><br>Prof. Dr.-Ing. Hendrik Dubbe
+<br><br>
+<a href="mailto:hendrik.dubbe@hs-esslingen.de?subject=Anfrage%20zu%20Temperaturprofil-App" 
+   style="color: gray; text-decoration: none;">
+Prof. Dr.-Ing. Hendrik Dubbe
+</a>
 </div>
 """, unsafe_allow_html=True)
