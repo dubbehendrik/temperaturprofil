@@ -49,25 +49,34 @@ if uploaded_file is None and "df" in st.session_state:
     st.session_state.clear()
     st.rerun()
 
-# Platzhalter für Beispieldatei (initial None)
+# --- Handling ob Beispieldatei geladen werden soll ---
 example_file = None
+source_label = None  # Info, was gerade geladen ist
 
 # Zwei Beispiel-Buttons
 col_demo1, col_demo2, col_demo3 = st.columns(3)
 
 with col_demo1:
     if st.button("Beispiel 1 laden"):
+        st.session_state.clear()  # Reset vorher
         url = "https://raw.githubusercontent.com/dubbehendrik/temperaturprofil/main/Exp_Temperaturprofil_ideal.xlsx"
         response = requests.get(url)
         if response.status_code == 200:
             example_file = BytesIO(response.content)
+            st.session_state.file_to_use = example_file
+            st.session_state.source_label = "Beispiel 1 geladen"
+            st.rerun()
 
 with col_demo2:
     if st.button("Beispiel 2 laden"):
+        st.session_state.clear()  # Reset vorher
         url = "https://raw.githubusercontent.com/dubbehendrik/temperaturprofil/main/Exp_Temperaturprofil_real.xlsx"
         response = requests.get(url)
         if response.status_code == 200:
             example_file = BytesIO(response.content)
+            st.session_state.file_to_use = example_file
+            st.session_state.source_label = "Beispiel 2 geladen"
+            st.rerun()
 
 with col_demo3:
     with open("Exp_Temperaturprofil_ideal.xlsx", "rb") as f:
@@ -76,19 +85,27 @@ with col_demo3:
 # --- Jetzt das "echte" file_to_use bestimmen ---
 file_to_use = uploaded_file if uploaded_file is not None else example_file
 
-# Reset bei Datei-Löschen
-if file_to_use is not None:
+# --- Wenn User eine Datei reinzieht: Reset ---
+if uploaded_file is not None:
+    if st.session_state.get("source_label") != uploaded_file.name:
+        st.session_state.clear()
+        st.session_state.file_to_use = uploaded_file
+        st.session_state.source_label = uploaded_file.name
+        st.rerun()
+
+# --- Anzeige "Datei geladen" mit ❌ Entfernen ---
+if "file_to_use" in st.session_state:
     col_file, col_remove = st.columns([8, 2])
     with col_file:
-        st.success("Datei geladen: Beispieldaten" if example_file else "Datei geladen: Hochgeladen")
+        st.success(f"{st.session_state.source_label}")
     with col_remove:
         if st.button("❌ Entfernen"):
-            if "df" in st.session_state:
-                del st.session_state["df"]
-            uploaded_file = None
-            example_file = None
+            st.session_state.clear()
             st.rerun()
 
+# --- Jetzt Datei laden & weiterverarbeiten ---
+if "file_to_use" in st.session_state:
+    df_raw = pd.read_excel(st.session_state.file_to_use)
 # Daten einlesen
 if file_to_use is not None and "df" not in st.session_state:
     df_raw = pd.read_excel(file_to_use)
