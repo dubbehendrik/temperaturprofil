@@ -98,7 +98,7 @@ if "file_to_use" in st.session_state and "df" not in st.session_state:
 
 # Daten einlesen
 if "file_to_use" is not None and "df" not in st.session_state:
-    df_raw = pd.read_excel(file_to_use)
+    df_raw = pd.read_excel(st.session_state.file_to_use)
     times = df_raw.iloc[:, 0].dropna().values
     temps = df_raw.iloc[:, 1].dropna().values
     min_len = min(len(times), len(temps))
@@ -107,7 +107,7 @@ if "file_to_use" is not None and "df" not in st.session_state:
     st.session_state.df = pd.DataFrame({"Zeit_s": times, "Temperatur_C": temps})
 
     # Parameter auslesen
-    params = pd.read_excel(file_to_use, usecols=[5], skiprows=1, nrows=5, header=None)
+    params = pd.read_excel(st.session_state.file_to_use, usecols=[5], skiprows=1, nrows=5, header=None)
     st.session_state.cp = float(params.iloc[0, 0])
     st.session_state.A = float(params.iloc[1, 0])
     st.session_state.m = float(params.iloc[2, 0])
