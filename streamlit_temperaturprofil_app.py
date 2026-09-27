@@ -113,29 +113,26 @@ def calculate_rmse(y_true, y_pred):
     return np.sqrt(np.mean((y_true - y_pred)**2))
 
 # --- Verarbeitung der Datei wenn vorhanden ---
-if "file_to_use" in st.session_state and "df" not in st.session_state:
-    file_like = st.session_state.get("file_to_use")
-    if file_like is not None:
-        df_raw = pd.read_excel(file_like)
+if st.session_state.get("file_to_use") is not None and "df" not in st.session_state:
+    df_raw = pd.read_excel(st.session_state.file_to_use)
+    if df_raw.shape[1] < 6:
+        st.error("Die Excel-Datei benötigt Zeit und Temperatur in Spalte A/B sowie fünf Parameter in Spalte F.")
+        st.stop()
 
+    # Fehlende Messwerte müssen paarweise entfernt werden, damit Zeiten und
+    # Temperaturen aus derselben Excel-Zeile zusammenbleiben.
+    measurements = df_raw.iloc[:, :2].apply(pd.to_numeric, errors="coerce").dropna()
+    if len(measurements) < 2 or measurements.iloc[:, 0].nunique() < 2:
+        st.error("Die Datei benötigt mindestens zwei gültige Messpunkte mit unterschiedlichen Zeiten.")
+        st.stop()
+    measurements.columns = ["Zeit_s", "Temperatur_C"]
 
-if "file_to_use" in st.session_state and st.session_state["file_to_use"] is not None:
-    df_raw = pd.read_excel(st.session_state["file_to_use"])
-    
-    times = df_raw.iloc[:, 0].dropna().values
-    temps = df_raw.iloc[:, 1].dropna().values
-    min_len = min(len(times), len(temps))
-    times = times[:min_len]
-    temps = temps[:min_len]
-    st.session_state.df = pd.DataFrame({"Zeit_s": times, "Temperatur_C": temps})
-
-    # Parameter auslesen
-    params = pd.read_excel(st.session_state.file_to_use, usecols=[5], skiprows=1, nrows=5, header=None)
-    st.session_state.cp = float(params.iloc[0, 0])
-    st.session_state.A = float(params.iloc[1, 0])
-    st.session_state.m = float(params.iloc[2, 0])
-    st.session_state.T0 = float(params.iloc[3, 0])
-    st.session_state.T_inf = float(params.iloc[4, 0])
+    params = pd.to_numeric(df_raw.iloc[:5, 5], errors="coerce")
+    if len(params) != 5 or not np.isfinite(params).all():
+        st.error("In Spalte F müssen cp, A, m, T0 und T∞ als Zahlen stehen.")
+        st.stop()
+    st.session_state.df = measurements.reset_index(drop=True)
+    st.session_state.cp, st.session_state.A, st.session_state.m, st.session_state.T0, st.session_state.T_inf = map(float, params)
 
 if "df" in st.session_state:
     df = st.session_state.df
@@ -154,7 +151,8 @@ if "df" in st.session_state:
                                step=1.0)
 
         df_cut = df[(df['Zeit_s'] >= time_range[0]) & (df['Zeit_s'] <= time_range[1])].copy()
-        df_cut['Zeit_s'] = df_cut['Zeit_s'] - df_cut['Zeit_s'].min()
+        # T0 gilt zum Beginn des gesamten Versuchs, nicht zum Beginn des Ausschnitts.
+        df_cut['Zeit_s'] = df_cut['Zeit_s'] - time_min
 
         # --- Plot-Placeholder: Der Plot wird hier immer reingerendert ---
         plot_placeholder = st.empty()
@@ -203,6 +201,10 @@ if "df" in st.session_state:
     # --- Falls Calculate gedrückt: Simulation ergänzen ---
     if calculate_clicked:
         try:
+            if cp <= 0 or A <= 0 or m <= 0:
+                raise ValueError("cp, A und m müssen positiv sein.")
+            if len(df_cut) < 3:
+                raise ValueError("Für den Fit werden mindestens drei Messpunkte im gewählten Zeitbereich benötigt.")
             popt, _ = curve_fit(lambda t, alpha: temperature_model(t, alpha, cp, A, m, T0, T_inf),
                                 df_cut['Zeit_s'].values, df_cut['Temperatur_C'].values,
                                 p0=[10.0], bounds=(0, np.inf))
